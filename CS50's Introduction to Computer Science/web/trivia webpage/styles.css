@@ -37,6 +37,10 @@ h1 {
     font-size: 48px;
 }
 
+input[type="button"] {
+    background-color: white;
+    padding: 10px 25px;
+}
 button, input[type="submit"] {
     background-color: #d9edff;
     border: 1px solid transparent;
