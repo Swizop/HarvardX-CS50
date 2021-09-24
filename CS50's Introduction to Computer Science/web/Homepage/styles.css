@@ -1,4 +1,4 @@
-
+html {height: 100%; margin: 0;}
 
   body {
     background: url(background.jpg) no-repeat center center fixed; 
@@ -6,6 +6,7 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    height: 100%;
   }
 
 
@@ -172,4 +173,9 @@ h1 {
 #links {
     position: relative;
     top: 275px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0.2%;
 }
