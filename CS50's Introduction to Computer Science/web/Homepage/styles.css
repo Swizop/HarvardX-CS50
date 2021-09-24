@@ -175,6 +175,33 @@ h1 {
     top: 275px;
 }
 
+#links-text {
+    position: relative;
+    top: 270px;
+    font-size: 15px;
+}
+
+.explained {
+    background-color: #202020;
+    color: white;
+    border-radius: 10px;
+    font-size: 10px;
+    padding: 5px 5px;
+    visibility: hidden;
+}
+
+#github-explained {
+    position: relative;
+    left: 5px;
+}
+#cv-explained {
+    position: relative;
+    left: 27px;
+}
+#email-explained {
+    position: relative;
+    left: 23px;
+}
 footer {
     position: absolute;
     bottom: 0.2%;
