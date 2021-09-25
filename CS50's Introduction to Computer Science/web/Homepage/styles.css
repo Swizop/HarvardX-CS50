@@ -38,42 +38,6 @@ html {height: 100%; margin: 0;}
 }
 
 
-  @media (max-width: 522px) {
-    .nav-link {
-        font-size: medium !important;
-    }
-
-    .navbar-nav {
-        left: 83% !important;
-    }
-}
-
-@media (max-width: 992px) {
-.navbar-expand-lg .navbar-collapse {
-    display: -ms-flexbox!important;
-    display: flex!important;
-    -ms-flex-preferred-size: auto;
-    flex-basis: auto;
-}
-
-.navbar-nav {
-    left: 90%;
-}
-
-.nav-link {
-    padding-top: 0px;
-    padding-bottom: 2px;
-    font-size: larger;
-}
-#home {
-    font-size: 20px;
-    padding: 5px 7px;
-    position: relative;
-    bottom: 20px;
-}
-}
-
-
 .wrapper {
     position: relative;
     color: white;
@@ -175,6 +139,10 @@ h1 {
     top: 275px;
 }
 
+.icon-list {
+    font-size: 35px !important;
+}
+
 #links-text {
     position: relative;
     top: 270px;
@@ -205,4 +173,63 @@ h1 {
 footer {
     position: absolute;
     bottom: 0.2%;
+}
+
+@media (min-height: 800px) {
+    .wrapper {
+        top: 195px;
+    }
+    .job {top: 350px;}
+    #links {top: 375px;}
+    #links-text {top: 370px;}
+}
+
+@media (max-width: 992px) {
+    .navbar-expand-lg .navbar-collapse {
+        display: -ms-flexbox!important;
+        display: flex!important;
+        -ms-flex-preferred-size: auto;
+        flex-basis: auto;
+    }
+    
+    .navbar-nav {
+        left: 90%;
+    }
+    
+    .nav-link {
+        padding-top: 0px;
+        padding-bottom: 2px;
+        font-size: larger;
+    }
+    #home {
+        font-size: 20px;
+        padding: 5px 7px;
+        position: relative;
+        bottom: 20px;
+    }
+    h1 {
+        font-size: 3.7em;
+    }
+    .job {
+        font-size: 1.5rem;
+    }
+    .icon-list {font-size: 28px !important;}
+    .explained {font-size: 9px;}
+}
+
+@media (max-width: 522px) {
+    .nav-link {
+        font-size: medium !important;
+    }
+
+    .navbar-nav {
+        left: 83% !important;
+    }
+    .icon-list {font-size: x-large !important;}
+    .job {
+        font-size: 1.2rem;
+    }
+    h1 {
+        font-size: 3em;
+    }
 }
