@@ -2,7 +2,6 @@ import os
 
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
-#cmd python -m flask run in order to run web app
 
 # Configure application
 app = Flask(__name__)
@@ -49,7 +48,14 @@ def index():
 
 
 
-@app.route("/delete", methods=["GET", "POST"])
+@app.route("/delete", methods=["POST"])
 def delete():
     db.execute("DELETE FROM birthdays WHERE id = ?", request.form.get("id"))
+    return redirect("/")
+
+
+@app.route("/edit", methods=["POST"])
+def edit():
+    db.execute("UPDATE birthdays SET name = ? , month = ? , day = ? WHERE id = ?",\
+         request.form.get("name"), request.form.get("month"), request.form.get("day"), request.form.get("id"))
     return redirect("/")

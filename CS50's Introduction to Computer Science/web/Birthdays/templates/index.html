@@ -4,6 +4,7 @@
     <head>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
         <link href="/static/styles.css" rel="stylesheet">
+        <script src="/static/main.js" defer></script>
         <title>Birthdays</title>
     </head>
     <body>
@@ -13,11 +14,11 @@
         <div class="container">
             <div class="section">
 
-                <h2>Add a Birthday</h2>
-                    <form action="/" method="POST">
-                        <input type="text" autocomplete="off" placeholder="Name" name="name">
-                        <input type="text" autocomplete="off" placeholder="Day" name="day">
-                        <input type="text" autocomplete="off" placeholder="Month" name="month">
+                <h2 id="h2">Add a Birthday</h2>
+                    <form action="/" method="POST" id="submit-form">
+                        <input type="text" autocomplete="off" placeholder="Name" name="name" id="name-input">
+                        <input type="text" autocomplete="off" placeholder="Day" name="day" id="day-input">
+                        <input type="text" autocomplete="off" placeholder="Month" name="month" id="month-input">
                         <input type="submit" value="Submit">
                     </form>
             </div>
@@ -35,9 +36,10 @@
                     <tbody>
                         {% for birthday in birthdays %} 
                             <tr>
-                                <td>{{birthday.name}}</td>
-                                <td>{{birthday.day}} / {{birthday.month}}</td>
+                                <td id="N{{ birthday.id }}">{{birthday.name}}</td>
+                                <td id="B{{ birthday.id }}">{{birthday.day}}/{{birthday.month}}</td>
                                 <td>
+                                <input type="submit" value="EDIT" id="E{{ birthday.id }}" class="edit">
                                 <form action="/delete" method="POST">
                                     <input name="id" type="hidden" value="{{ birthday.id }}">
                                     <input type="submit" value="DELETE">
