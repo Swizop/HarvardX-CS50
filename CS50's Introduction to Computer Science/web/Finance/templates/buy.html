@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy Stocks
+{% endblock %}
+
+{% block main %}
+    <form action="/buy" method="post">
+        <div class="form-group">
+            <input autocomplete="on" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text">
+            {% if er == 1 %}
+                <p style="color:red">Symbol not found!</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" name="shares" placeholder="Number of shares" type="text">
+            {% if er == 2 %}
+                <p style="color:red">Invalid number!</p>
+            {% endif %}
+            <div class="alert alert-light" role="alert" style="font-size: smaller; position: relative; top: 10px;">
+                Note: You can only buy whole shares.
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit" style="padding: 5px 45px;">Buy</button>
+    </form>
+    {% if er == 3 %}
+    <div class="alert alert-danger" role="alert" style="position: relative; top: 5px;">
+        <strong>Error!</strong> Insufficient funds in your account.
+    </div>
+    {% endif %}
+{% endblock %}

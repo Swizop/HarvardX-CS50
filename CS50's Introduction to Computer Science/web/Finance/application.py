@@ -54,7 +54,28 @@ def index():
 @login_required
 def buy():
     """Buy shares of stock"""
-    return apology("TODO")
+    if request.method == "GET":
+        return render_template("buy.html")
+    else:
+        symbol = request.form.get("symbol").strip().upper()
+        obj = lookup(symbol)
+        if not obj:
+            return render_template("buy.html", er = 1)
+        shares = request.form.get("shares").strip()
+        if not shares.isnumeric():
+            return render_template("buy.html", er = 2)
+        
+        price = obj["price"]
+        userId = session["user_id"]
+        userBalance = db.execute("SELECT * FROM users WHERE id=?", userId)[0]["cash"]
+
+        if float(price) * int(shares) > userBalance:
+            return render_template("buy.html", er = 3)
+
+        db.execute("INSERT INTO acquisitions (user_id, symbol, price) VALUES(?, ?, ?)", userId, symbol, price)
+        db.execute("UPDATE users SET cash = ? WHERE id = ?", userBalance - float(price) * int(shares), userId)
+
+        return redirect("/")
 
 
 @app.route("/history")
