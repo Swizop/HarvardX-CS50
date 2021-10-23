@@ -117,6 +117,13 @@ def quote():
     """Get stock quote."""
     if request.method == "GET":
         return render_template("quote.html")
+    else:
+        symbol = request.form.get("symbol").strip().upper()
+        obj = lookup(symbol)
+        if obj:
+            return render_template("quoted.html", symbol=symbol, obj = obj)     #note: i could download the yahoo finance database to get suggestions when searching
+        else:
+            return render_template("quote.html", er = 1)
 
 
 @app.route("/register", methods=["GET", "POST"])

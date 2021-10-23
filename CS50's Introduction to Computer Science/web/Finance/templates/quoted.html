@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ symbol }} Stock
+{% endblock %}
+
+{% block main %}
+    <div id="quoted">
+        <p>Stock Symbol: {{ obj["symbol"] }}</p>
+        <p>Company Name: {{ obj["name"] }}</p>
+        <p>Last Price: {{ obj["price"] }}</p>
+    </div>
+{% endblock %}
+
+{% block style %}
+    <style>
+        #quoted {
+            background-color: #e7feff;
+            border-style: solid;
+            font-size: 2rem;
+            border-color: lightgray;
+        }
+    </style>
+{% endblock %}
