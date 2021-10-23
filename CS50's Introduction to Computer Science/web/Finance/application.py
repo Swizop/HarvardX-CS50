@@ -38,6 +38,7 @@ Session(app)
 db = SQL("sqlite:///finance.db")
 
 # Make sure API key is set
+# If not set, run: set API_KEY=...
 if not os.environ.get("API_KEY"):
     raise RuntimeError("API_KEY not set")
 
@@ -114,13 +115,35 @@ def logout():
 @login_required
 def quote():
     """Get stock quote."""
-    return apology("TODO")
+    if request.method == "GET":
+        return render_template("quote.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
-    return apology("TODO")
+    if request.method == "GET":
+        return render_template("register.html")
+    else:
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if not username:
+            return render_template("register.html", blank = 1)
+        if not password:
+            return render_template("register.html", blank = 2)
+        if not request.form.get("confirmation"):
+            return render_template("register.html", blank = 3)
+        if request.form.get("confirmation") != password:
+            return render_template("register.html", blank = 4)
+        
+        userQuery = db.execute("SELECT * FROM users WHERE username = ?", username)
+        if userQuery:
+            return render_template("register.html", blank = 5)
+
+        db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
+        return redirect("/")
+    
 
 
 @app.route("/sell", methods=["GET", "POST"])

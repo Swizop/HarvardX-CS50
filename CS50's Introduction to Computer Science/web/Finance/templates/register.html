@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+            {% if blank == 1 %}
+                <p style="color:red">Field can not be empty!</p>
+            {% endif %}
+            {% if blank == 5 %}
+                <p style="color:red">Username already in use!</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Password" type="password">
+            {% if blank == 2 %}
+                <p style="color:red">Field can not be empty!</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="confirmation" placeholder="Confirm password" type="password">
+            {% if blank == 3 %}
+                <p style="color:red">Field can not be empty!</p>
+            {% endif %}
+            {% if blank == 4 %}
+                <p style="color:red">Passwords do not match!</p>
+            {% endif %}
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+{% endblock %}
