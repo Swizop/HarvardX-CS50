@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+    <h1>Your Stock Portofolio</h1>
+    {% if er == 1 %}
+      <h4>Whoops... It appears you haven't bought any shares yet! <a href="/buy">What are you waiting for?</a></h4>
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-border text-secondary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-border text-success" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-border text-danger" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-border text-info" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      </div>
+    {% else %}
+    <table class="table table-hover" style="position: relative; top: 15px;">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Company</th>
+            <th>Shares</th>
+            <th>Current Price</th>
+            <th>Total Value</th>
+            <th>Profit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in range(holdings| length) %}
+            <tr>
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ companyNames[i] }}</td>
+              <td>{{ holdings[i].amount }}</td>
+              <td>{{ currentPrices[i] }}$</td>
+              <td>{{ currentPrices[i] * holdings[i].amount }}$</td>
+              {% if currentPrices[i] * holdings[i].amount - holdings[i].average_price * holdings[i].amount >= 0 %}
+                <td style="color:rgb(99, 236, 99);">{{ currentPrices[i] * holdings[i].amount - holdings[i].average_price * holdings[i].amount }}$</td>
+              {% else %}
+                <td style="color: red;">{{ currentPrices[i] * holdings[i].amount - holdings[i].average_price * holdings[i].amount }}$</td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+    <h6>Total Balance: {{ stocksValue }}, of which {{ cash }} in cash</h6>
+    {% endif %}
+{% endblock %}

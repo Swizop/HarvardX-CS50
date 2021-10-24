@@ -47,7 +47,23 @@ if not os.environ.get("API_KEY"):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    return apology("TODO")
+    userId = session["user_id"]
+    holdings = db.execute("SELECT * FROM holdings WHERE user_id = ?", userId)
+    cash = float(db.execute("SELECT * FROM users WHERE id = ?", userId)[0]["cash"])
+    stocksValue = 0
+    if not holdings:
+        return render_template("index.html", er = 1)
+    else:
+        companyNames = []
+        currentPrices = []
+        for h in holdings:
+            obj = lookup(h["symbol"])
+            companyNames.append(obj["name"])
+            currentPrices.append(obj["price"])
+            stocksValue += float(obj["price"]) * int(h["amount"])
+        stocksValue = usd(stocksValue + cash)
+        cash = usd(cash)
+        return render_template("index.html", holdings = holdings, companyNames = companyNames, currentPrices = currentPrices, cash = cash, stocksValue = stocksValue)
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -65,15 +81,19 @@ def buy():
         if not shares.isnumeric():
             return render_template("buy.html", er = 2)
         
-        price = obj["price"]
+        price = float(obj["price"])
         userId = session["user_id"]
-        userBalance = db.execute("SELECT * FROM users WHERE id=?", userId)[0]["cash"]
+        userBalance = float(db.execute("SELECT * FROM users WHERE id=?", userId)[0]["cash"])
 
-        if float(price) * int(shares) > userBalance:
+        if price * int(shares) > userBalance:
             return render_template("buy.html", er = 3)
 
-        db.execute("INSERT INTO acquisitions (user_id, symbol, price) VALUES(?, ?, ?)", userId, symbol, price)
-        db.execute("UPDATE users SET cash = ? WHERE id = ?", userBalance - float(price) * int(shares), userId)
+        shares = int(shares)
+        db.execute("INSERT INTO acquisitions (user_id, symbol, amount, price) VALUES(?, ?, ?, ?)", userId, symbol, shares, price)
+        db.execute("UPDATE users SET cash = ? WHERE id = ?", userBalance - price * shares, userId)
+        db.execute("INSERT INTO holdings (user_id, symbol, amount, average_price) VALUES (?, ?, ?, ?) ON CONFLICT(user_id, symbol) DO UPDATE SET average_price = (average_price * amount + ? * ?) / (amount + ?), amount = amount + ?",\
+             userId, symbol, shares, price,\
+                shares, price, shares, shares )
 
         return redirect("/")
 

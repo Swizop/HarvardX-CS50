@@ -7,7 +7,7 @@
 {% block main %}
     <form action="/buy" method="post">
         <div class="form-group">
-            <input autocomplete="on" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text">
+            <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text">
             {% if er == 1 %}
                 <p style="color:red">Symbol not found!</p>
             {% endif %}
