@@ -2,6 +2,7 @@ import os
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
+from flask.helpers import url_for
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -198,7 +199,22 @@ def register():
 @login_required
 def sell():
     """Sell shares of stock"""
-    return apology("TODO")
+    if request.method == "GET":
+        userId = session["user_id"]
+        holdings = db.execute("SELECT * FROM holdings WHERE user_id = ?", userId)
+        try:
+            er = int(request.args.get("er"))                                            #GET parameter sent from a bad POST request
+        except TypeError:
+            er = None
+        if not holdings:
+            return redirect("/")
+        return render_template("sell.html", holdings = holdings, er = er)
+    else:
+        symbol = request.form.get("symbol")
+        shares = request.form.get("shares").strip()
+        if not shares.isnumeric():
+            return redirect(url_for("sell", er = 2))
+
 
 
 def errorhandler(e):
