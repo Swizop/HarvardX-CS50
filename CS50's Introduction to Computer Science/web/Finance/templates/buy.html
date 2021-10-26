@@ -7,7 +7,7 @@
 {% block main %}
     <form action="/buy" method="post">
         <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text">
+            <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text" id="symbolinp">
             {% if er == 1 %}
                 <p style="color:red">Symbol not found!</p>
             {% endif %}
@@ -23,6 +23,7 @@
             </div>
         </div>
         <button class="btn btn-primary" type="submit" style="padding: 5px 45px;">Buy</button>
+        <ul id="ul" class="list-group list-group-horizontal text-center" style="padding-left: 350px;"></ul>
     </form>
     {% if er == 3 %}
     <div class="alert alert-danger" role="alert" style="position: relative; top: 5px;">
