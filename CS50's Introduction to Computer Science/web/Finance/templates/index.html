@@ -7,7 +7,7 @@
 {% block main %}
     <h1>Your Stock Portofolio</h1>
     {% if er == 1 %}
-      <h4>Whoops... It appears you haven't bought any shares yet! <a href="/buy">What are you waiting for?</a></h4>
+      <h4>Buy some shares to unlock all of our site's features! <a href="/buy">What are you waiting for?</a></h4>
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
       </div>
@@ -48,9 +48,9 @@
               <td>{{ currentPrices[i] }}$</td>
               <td>{{ currentPrices[i] * holdings[i].amount }}$</td>
               {% if currentPrices[i] * holdings[i].amount - holdings[i].average_price * holdings[i].amount >= 0 %}
-                <td style="color:rgb(99, 236, 99);">{{ currentPrices[i] * holdings[i].amount - holdings[i].average_price * holdings[i].amount }}$</td>
+                <td style="color:rgb(99, 236, 99);">+${{ currentPrices[i] * holdings[i].amount - holdings[i].average_price * holdings[i].amount }}</td>
               {% else %}
-                <td style="color: red;">{{ currentPrices[i] * holdings[i].amount - holdings[i].average_price * holdings[i].amount }}$</td>
+                <td style="color: red;">${{ currentPrices[i] * holdings[i].amount - holdings[i].average_price * holdings[i].amount }}$</td>
               {% endif %}
             </tr>
           {% endfor %}

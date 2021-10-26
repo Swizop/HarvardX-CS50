@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <h1>Your Transactions</h1>
+    <table class="table table-hover" style="position: relative; top: 15px;">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Transaction</th>
+            <th>Symbol</th>
+            <th>Price per Share</th>
+            <th>Amount</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in range(history| length) %}
+            <tr>
+              <th scope="row">{{ i + 1 }}</th>
+              {% if history[i].type == 'sell' %}
+                <td>SELL</td>
+               {% else %}
+                <td>BUY</td>
+               {% endif %}
+              <td>{{ history[i].symbol }}</td>
+              <td>${{ history[i].price }}</td>
+              <td>{{ history[i].amount }}</td>
+              <td>{{ history[i].acquisition_date }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+    <h6>Thank you for doing business with us!</h6>
+{% endblock %}
