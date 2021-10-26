@@ -212,10 +212,25 @@ def sell():
     else:
         symbol = request.form.get("symbol")
         shares = request.form.get("shares").strip()
+        userId = session["user_id"]
         if not shares.isnumeric():
             return redirect(url_for("sell", er = 2))
 
+        holding = db.execute("SELECT * FROM holdings WHERE user_id = ? AND symbol = ?", userId, symbol)
+        owned = int(holding[0]["amount"])
+        shares = int(shares)
+        if not holding or shares > owned:           #if the user submits the name of a stock he doesn't own or if he requests more shares than he has in his acc
+            return redirect(url_for("sell", er = 3))
 
+        price = lookup(symbol)["price"]
+        db.execute("INSERT INTO acquisitions (user_id, symbol, amount, price, type) VALUES (?, ?, ?, ?, 'sell')", userId, symbol, shares, price)
+        db.execute("UPDATE users SET cash = cash + ? WHERE id = ?", price * shares, userId)
+        if shares == owned:
+            db.execute("DELETE FROM holdings WHERE user_id = ? AND symbol = ?", userId, symbol)
+        else:
+            db.execute("UPDATE holdings SET amount = amount - ? WHERE user_id = ? AND symbol = ?", shares, userId, symbol)
+
+        return redirect("/")
 
 def errorhandler(e):
     """Handle error"""
