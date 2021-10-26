@@ -7,14 +7,15 @@
 {% block main %}
     <form action="/quote" method="post">
         <div class="form-group">
-            <input autocomplete="on" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text">
+            <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text" id="symbolinp">
             {% if er == 1 %}
                 <p style="color:red">Symbol not found!</p>
             {% endif %}
             <div class="alert alert-light" role="alert" style="font-size: smaller; position: relative; top: 10px;">
-                Look up real-time information about a stock.
+                Look up real-time information about a stock. Type for suggestions.
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Search</button>
+        <ul id="ul" class="list-group list-group-horizontal text-center" style="padding-left: 350px;"></ul>
     </form>
 {% endblock %}

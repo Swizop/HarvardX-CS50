@@ -1,7 +1,7 @@
 import os
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask.helpers import url_for
 from flask_session import Session
 from tempfile import mkdtemp
@@ -53,7 +53,7 @@ def index():
     cash = float(db.execute("SELECT * FROM users WHERE id = ?", userId)[0]["cash"])
     stocksValue = 0
     if not holdings:
-        return render_template("index.html", er = 1)
+        return render_template("index.html", er = 1, cash = cash)
     else:
         companyNames = []
         currentPrices = []
@@ -235,6 +235,18 @@ def sell():
             db.execute("UPDATE holdings SET amount = amount - ? WHERE user_id = ? AND symbol = ?", shares, userId, symbol)
 
         return redirect("/")
+
+
+
+@app.route("/nasdaq")                   #helper route to generate dynamic suggestions for input
+def nasdaq():
+    q = request.args.get("q")
+    if q:
+        stocks = db.execute("SELECT * FROM nasdaq WHERE symbol LIKE ?", q.upper() + "%")[:5]
+    else:
+        stocks = []
+    return jsonify(stocks)
+
 
 def errorhandler(e):
     """Handle error"""
